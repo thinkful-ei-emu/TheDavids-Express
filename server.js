@@ -48,6 +48,34 @@ app.get('/cipher',(req,res)=>{
 
 });
 
+app.get('/lotto', (req,res) => {
+  let userNumbers = req.query.number.map((num) => {
+    return Number(num);
+  });
+  let randNumbers = [];
+  let numbersCorrect = 0;
+  for( let i=0; i<6; i++){
+    randNumbers.push(Math.ceil(Math.random() * 20));
+  }
+  for( let i=0; i < userNumbers.length; i++){
+    if (randNumbers.includes(userNumbers[i])){
+      numbersCorrect++;
+    }
+  }
+  if(numbersCorrect < 4){
+    res.send(`You suck! You are a failure! Your guess was ${randNumbers}`);
+  } else if( numbersCorrect === 4){
+    res.send('Congratulations, you win a free ticket but are still a bit of a failure.');
+  } else if (numbersCorrect === 5){
+    res.send('Congratulations! You win $100');
+  } else {
+    res.send('Wow! Unbelievable! You could have won the mega millions!');
+  }
+});
+
+
+
+
 app.listen(8080, () => 
   console.log('The server started!')
 );
